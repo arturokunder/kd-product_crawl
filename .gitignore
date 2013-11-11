@@ -17,3 +17,5 @@ local_urlsMobile.py
 
 /*.pydevproject
 /.settings
+
+/crawler/scrapped.txt
