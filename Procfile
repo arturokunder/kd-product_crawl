@@ -1,1 +1,1 @@
-web: gunicorn product_crawl.wsgi
+crawler: scrapy crawl falabella
