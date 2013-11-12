@@ -27,7 +27,7 @@ DOWNLOAD_TIMEOUT = 40
 
 DUPEFILTER_CLASS = 'crawler.filters.SeenUrlFilter'
 
-TELNETCONSOLE_PORT = [80, 8080, 5000, 6023]
+TELNETCONSOLE_PORT = [80, 5000]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crawler (+http://www.yourdomain.com)'
