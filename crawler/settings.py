@@ -12,7 +12,7 @@ SPIDER_MODULES = ['crawler.spiders']
 #NEWSPIDER_MODULE = 'crawler.spiders'
 LOG_LEVEL = 'INFO'
 
-ITEM_PIPELINES = ['crawler.pipelines.DropDuplicateItemPipeline',
+ITEM_PIPELINES = [#'crawler.pipelines.DropDuplicateItemPipeline',
                   'crawler.pipelines.SaveInProductsDb'
                 ]
 
