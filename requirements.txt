@@ -10,7 +10,6 @@ psycopg2==2.5.1
 pyOpenSSL==0.13.1
 pyjade==2.0.3
 pymongo==2.6.3
-pywin32==218
 queuelib==1.0
 six==1.4.1
 w3lib==1.3
