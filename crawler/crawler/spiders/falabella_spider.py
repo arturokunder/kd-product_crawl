@@ -8,12 +8,14 @@ from crawler.items import productItem
 
 class FalabellaSpider(CrawlSpider):
     name = "falabella"
-    allowed_domains = ["falabella.com"]
+    allowed_domains = ["www.falabella.com"]
     start_urls = [
         "http://www.falabella.com/falabella-cl/"
     ]
-    rules = [Rule(SgmlLinkExtractor(allow=['/category/'])),
-             Rule(SgmlLinkExtractor(allow=['/product/']), 'parse_producto')]
+    #deny secure.falabella.com
+    rules = [Rule(SgmlLinkExtractor(allow=['/falabella-cl/category/'], 
+                                    deny=['/falabella-cl/browse/', '/falabella-cl/myaccount/', '/static/site/'])),
+             Rule(SgmlLinkExtractor(allow=['/falabella-cl/product/']), 'parse_producto')]
     
 
     def parse_producto(self, response):
@@ -24,7 +26,7 @@ class FalabellaSpider(CrawlSpider):
         item['modelo'] = clean_item(get_item(sel.select('//*[@id="productDecription"]/text()').extract()))
         item['descripcion'] = u' '.join(sel.select('//div[@id="contenidoDescripcionPP"]/*').extract())
         
-        item['categorias'] = sel.select('//div[@id="ruta"]/a[not(contains(text(), "Falabella.com"))]/text()').extract()
+        item['categorias'] = sel.select('//div[@id="ruta"]/a[not(contains(., "Falabella.com"))]/text()').extract()
        
         item['tienda'] = 'Falabella'
         item['link'] = response.url
@@ -56,8 +58,6 @@ def get_number(result):
         return int(result)
     except:
         return result
-    
-    return result
 
 def clean_item(result):
     try:

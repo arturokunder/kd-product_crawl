@@ -22,39 +22,39 @@ class CrawlerPipeline(object):
 
 class DropDuplicateItemPipeline(object):
     def __init__(self):
-        self.link_seen = set()
+        self.sku_seen = set()
     def process_item(self, item, spider):
-        if item['link'] in self.link_seen:
-            raise DropItem("Duplicate link: %s" % item['link'])
+        
+        if item['tienda'] + str(item['sku']) in self.sku_seen:
+            raise DropItem("Duplicate link: %s" % (item['tienda'] + str(item['sku'])))
         else:
-            self.link_seen.add(item['link'])
+            self.sku_seen.add(item['tienda'] + str(item['sku']))
             return item
         
 class SaveInProductsDb(object):
-
-    
     def process_item(self, item, spider):
-        connection = MongoClient(MONGO_DB['HOST'], MONGO_DB['PORT'])
-        db = connection[MONGO_DB['NAME']]
-        db.authenticate(MONGO_DB['USER'], MONGO_DB['PASSWORD'])
-        
-        key = {
-            'sku' : item['sku'],
-            'tienda' : item['tienda']
-        }
-        
-        data = {
-            'sku' : item['sku'],
-            'tienda' : item['tienda'],
-            'marca' : item['marca'],
-            'modelo' : item['modelo'],
-            'descripcion' : item['descripcion'],
-            'precio' : item['precio'],
-            'categorias' : item['categorias'],
-            'link' : item['link'],
-            'actualizacion' : item['actualizacion'],
-        }
-        
-        db.products.update(key, data, upsert=True)
+        if item is not None:
+            connection = MongoClient(MONGO_DB['HOST'], MONGO_DB['PORT'])
+            db = connection[MONGO_DB['NAME']]
+            db.authenticate(MONGO_DB['USER'], MONGO_DB['PASSWORD'])
+            
+            key = {
+                'sku' : item['sku'],
+                'tienda' : item['tienda']
+            }
+            
+            data = {
+                'sku' : item['sku'],
+                'tienda' : item['tienda'],
+                'marca' : item['marca'],
+                'modelo' : item['modelo'],
+                'descripcion' : item['descripcion'],
+                'precio' : item['precio'],
+                'categorias' : item['categorias'],
+                'link' : item['link'],
+                'actualizacion' : item['actualizacion'],
+            }
+            
+            db.products.update(key, data, upsert=True)
         
         return item
