@@ -11,12 +11,13 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 LOG_LEVEL = 'INFO'
 
-ITEM_PIPELINES = [#'crawler.pipelines.DropDuplicateItemPipeline',
-                  'crawler.pipelines.SaveInProductsDb'
-                ]
+ITEM_PIPELINES = {
+                  #'crawler.pipelines.DropDuplicateItemPipeline' : 10,
+                  'crawler.pipelines.SaveInProductsDb' : 20
+                }
 
 DOWNLOADER_MIDDLEWARES = {
-    #'crawler.middlewares.RelCanonicalMiddleware': 200,
+    #'crawler.middlewares.RelCanonicalMiddleware': 10,
 }
 
 USER_AGENT = "Searchbot/0.1"

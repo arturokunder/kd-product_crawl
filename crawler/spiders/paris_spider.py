@@ -1,6 +1,6 @@
 import datetime
 
-from scrapy.selector import HtmlXPathSelector 
+from scrapy.selector import Selector 
 from scrapy.contrib.spiders import Rule, CrawlSpider
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 
@@ -35,17 +35,17 @@ class ParisSpider(CrawlSpider):
     
 
     def parse_producto(self, response):
-        sel = HtmlXPathSelector(response)
+        sel = Selector(response)
         item = productItem()
         
-        sku = sel.select('//span[@class="sku"]/text()').extract()
+        sku = sel.xpath('//span[@class="sku"]/text()').extract()
         if(len(sku) == 0):
             return None
         else:
             item['sku'] = get_item(sku).replace('SKU: ', '')
         
         marca = ''
-        ficha_tecnica = sel.select('//div[@class="datasheet"]/table//tr/td/text()').extract()
+        ficha_tecnica = sel.xpath('//div[@class="datasheet"]/table//tr/td/text()').extract()
         if len(ficha_tecnica) >= 2:
             for idx, i in enumerate(ficha_tecnica):
                 if i.lower() == 'marca' and len(ficha_tecnica) >= idx+1:
@@ -53,24 +53,24 @@ class ParisSpider(CrawlSpider):
                     break
         
         item['marca'] = marca
-        item['modelo'] = clean_item(get_item(sel.select('//*[@id="catalog_link"]/text()').extract())).replace(' ' + marca, '')
+        item['modelo'] = clean_item(get_item(sel.xpath('//*[@id="catalog_link"]/text()').extract())).replace(' ' + marca, '')
         
-        item['descripcion'] = clean_item(u' '.join(sel.select('//div[@class="description" or @class="datasheet"]/*').extract()))
+        item['descripcion'] = clean_item(u' '.join(sel.xpath('//div[@class="description" or @class="datasheet"]/*').extract()))
         
-        item['categorias'] = sel.select('//div[@id="WC_BreadCrumbTrailDisplay_div_1"]/a/text()').extract()
+        item['categorias'] = sel.xpath('//div[@id="WC_BreadCrumbTrailDisplay_div_1"]/a/text()').extract()
         
         item['tienda'] = 'Paris'
         item['link'] = response.url
         item['actualizacion'] = datetime.datetime.now()
         
         precio = {}
-        internet = sel.select('//*[@class="price offerPrice bold"]/text()').extract()
+        internet = sel.xpath('//*[@class="price offerPrice bold"]/text()').extract()
         if len(internet) > 1:
             internet = internet[0]
             
         precio['internet'] = get_number(clean_item(get_item(internet)))
 
-        hayoferta = sel.select('substring-after(//span[@class="sub-price bold"]/text(), "$")').extract()
+        hayoferta = sel.xpath('substring-after(//span[@class="sub-price bold"]/text(), "$")').extract()
         
         if len(hayoferta) > 0 and len(hayoferta[0]) > 0:
             precio['oferta'] = precio['internet']

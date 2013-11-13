@@ -1,6 +1,6 @@
 import datetime
 
-from scrapy.selector import HtmlXPathSelector 
+from scrapy.selector import Selector 
 from scrapy.contrib.spiders import Rule, CrawlSpider
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 
@@ -19,14 +19,14 @@ class FalabellaSpider(CrawlSpider):
     
 
     def parse_producto(self, response):
-        sel = HtmlXPathSelector(response)
+        sel = Selector(response)
         item = productItem()
         
-        item['marca'] = clean_item(get_item(sel.select('//div[@class="detalle"]/div[@class="marca"]/text()').extract()))
-        item['modelo'] = clean_item(get_item(sel.select('//*[@id="productDecription"]/text()').extract()))
-        item['descripcion'] = u' '.join(sel.select('//div[@id="contenidoDescripcionPP"]/*').extract())
+        item['marca'] = clean_item(get_item(sel.xpath('//div[@class="detalle"]/div[@class="marca"]/text()').extract()))
+        item['modelo'] = clean_item(get_item(sel.xpath('//*[@id="productDecription"]/text()').extract()))
+        item['descripcion'] = u' '.join(sel.xpath('//div[@id="contenidoDescripcionPP"]/*').extract())
         
-        item['categorias'] = sel.select('//div[@id="ruta"]/a[not(contains(., "Falabella.com"))]/text()').extract()
+        item['categorias'] = sel.xpath('//div[@id="ruta"]/a[not(contains(., "Falabella.com"))]/text()').extract()
        
         item['tienda'] = 'Falabella'
         item['link'] = response.url
@@ -35,13 +35,13 @@ class FalabellaSpider(CrawlSpider):
         
         item['actualizacion'] = datetime.datetime.now()
         
-        internet = sel.select('//div[@id="preciosPP"]//div[@class="precio1"]/text()').extract()
+        internet = sel.xpath('//div[@id="preciosPP"]//div[@class="precio1"]/text()').extract()
        
         if len(internet) == 2:
             internet = [internet[1]]
             
         precio = {
-                'normal' : get_number(clean_item(get_item(sel.select('substring-after(//div[@id="preciosPP"]//div[@class="precio2"]/text(), "$")').extract()))),
+                'normal' : get_number(clean_item(get_item(sel.xpath('substring-after(//div[@id="preciosPP"]//div[@class="precio2"]/text(), "$")').extract()))),
                 'internet' : get_number(clean_item(get_item(internet))),
                   }
         item['precio'] = precio
