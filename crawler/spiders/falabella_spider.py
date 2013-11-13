@@ -46,10 +46,6 @@ class FalabellaSpider(CrawlSpider):
                   }
         item['precio'] = precio
         
-        
-        #print item
-        #filename = response.url.split("/")[-2]
-        #open(filename, 'wb').write(response.body)
         return item
     
 def get_number(result):

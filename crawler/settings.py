@@ -9,23 +9,26 @@
 BOT_NAME = 'crawler'
 
 SPIDER_MODULES = ['crawler.spiders']
-#NEWSPIDER_MODULE = 'crawler.spiders'
 LOG_LEVEL = 'INFO'
 
 ITEM_PIPELINES = [#'crawler.pipelines.DropDuplicateItemPipeline',
                   'crawler.pipelines.SaveInProductsDb'
                 ]
 
+DOWNLOADER_MIDDLEWARES = {
+    #'crawler.middlewares.RelCanonicalMiddleware': 200,
+}
+
 USER_AGENT = "Searchbot/0.1"
 
 #AUTOTHROTTLE_ENABLED = True
 
-#CLOSESPIDER_PAGECOUNT = 50
-CONCURRENT_REQUESTS = 6
-DOWNLOAD_DELAY = 2
+CLOSESPIDER_PAGECOUNT = 50
+CONCURRENT_REQUESTS = 8
+DOWNLOAD_DELAY = 1.8
 DOWNLOAD_TIMEOUT = 40
 
-DEPTH_LIMIT = 4
+DEPTH_LIMIT = 8
 
 DUPEFILTER_CLASS = 'crawler.filters.SeenUrlFilter'
 

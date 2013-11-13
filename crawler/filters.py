@@ -10,10 +10,14 @@ class SeenUrlFilter(RFPDupeFilter):
         RFPDupeFilter.__init__(self, path)
 
     def __getUrlId(self, url):
-        if 'falabella.com' in url or '/category/' in url:
-            if '/product/' in url:
+        if 'falabella.com' in url:
+            if '/product/' in url or '/category/' in url:
                 return 'f' + url.split('/')[5]
         
+        if 'paris.cl' in url:
+            return None
+                
+                
         return None
     
     def request_seen(self, request):
