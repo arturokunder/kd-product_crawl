@@ -1,1 +1,1 @@
-crawler: scrapy crawl falabella
+crawler: python crawler.py
