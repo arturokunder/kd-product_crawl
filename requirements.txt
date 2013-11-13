@@ -1,7 +1,7 @@
 Scrapy==0.20.0
 Twisted==13.2.0
 cssselect==0.9.1
-distribute==0.7.3
+distribute==0.6.34
 lxml==3.2.4
 psycopg2==2.5.1
 pyOpenSSL==0.13.1
