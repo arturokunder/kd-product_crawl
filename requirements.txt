@@ -1,11 +1,12 @@
 Scrapy==0.20.0
 Twisted==13.2.0
 cssselect==0.9.1
-distribute==0.6.34
+distribute==0.6.31
 lxml==3.2.4
 psycopg2==2.5.1
 pyOpenSSL==0.13.1
 pymongo==2.6.3
+pywin32==218
 queuelib==1.1.1
 six==1.4.1
 w3lib==1.5

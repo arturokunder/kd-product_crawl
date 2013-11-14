@@ -9,7 +9,7 @@
 BOT_NAME = 'crawler'
 
 SPIDER_MODULES = ['crawler.spiders']
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 
 ITEM_PIPELINES = {
                   #'crawler.pipelines.DropDuplicateItemPipeline' : 10,
