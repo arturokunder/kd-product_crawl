@@ -9,7 +9,7 @@
 BOT_NAME = 'crawler'
 
 SPIDER_MODULES = ['crawler.spiders']
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'INFO'
 
 ITEM_PIPELINES = {
                   #'crawler.pipelines.DropDuplicateItemPipeline' : 10,
@@ -20,7 +20,7 @@ DOWNLOADER_MIDDLEWARES = {
     #'crawler.middlewares.RelCanonicalMiddleware': 10,
 }
 
-USER_AGENT = "Searchbot/0.1"
+USER_AGENT = "Megustahotuiti/0.1"
 
 #AUTOTHROTTLE_ENABLED = True
 

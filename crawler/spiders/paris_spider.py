@@ -13,6 +13,7 @@ class ParisSpider(CrawlSpider):
         "http://www.paris.cl/static/"
         #'http://www.paris.cl/tienda/es/paris/frigobar-mabe-mac120b0'
         #'http://www.paris.cl/tienda/es/paris/linea-blanca/frigobar-y-cavas/frigobar-mabe-mac120b0'
+        #'http://www.paris.cl/tienda/es/paris/search/refrigeradores'
     ]
     follow_canonical_links = False
     follow_canonical_links_url_exceptions = ["http://www.paris.cl/static/"]
@@ -20,7 +21,7 @@ class ParisSpider(CrawlSpider):
     rules = [Rule(SgmlLinkExtractor(
                 allow=[
                        r'/tienda/es/paris/search/',
-                       r'/webapp/wcs/stores/servlet/SearchDisplay'
+                       r'/webapp/wcs/stores/servlet/SearchDisplay\?(?=.*categoryId=\w+)(?=.*pageSize=\d+)'
                 ])),
              Rule(SgmlLinkExtractor(
                 allow=[
